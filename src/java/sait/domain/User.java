@@ -5,6 +5,8 @@ public class User
 
     private String username;
     private String password;
+    private String salt;
+    private String hashedandsaltedpassword;
     private boolean isAdmin;
 
     public User()
@@ -48,4 +50,23 @@ public class User
         this.isAdmin = isAdmin;
     }
 
+    public String getSalt()
+    {
+        return salt;
+    }
+
+    public void setSalt(String salt)
+    {
+        this.salt = salt;
+    }
+
+    public String getHashedandsaltedpassword()
+    {
+        return hashedandsaltedpassword;
+    }
+
+    public void setHashedandsaltedpassword(String hashedandsaltedpassword)
+    {
+        this.hashedandsaltedpassword = hashedandsaltedpassword;
+    }
 }
