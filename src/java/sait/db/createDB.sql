@@ -24,15 +24,15 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
---   `salt` varchar(20) NOT NULL,
---   `hashedandsaltedpassword` varchar(40) NOT NULL,
+  `salt` varchar(20),
+  `hashedandsaltedpassword` varchar(40),
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `users` */
 
-insert  into `users`(`username`,`password`,`admin`) values ('adam','adam',1),('bill','bill',0);
+insert  into `users`(`username`,`password`,`salt`,`hashedandsaltedpassword`,`admin`) values ('adam','adam',null,null,1),('bill','bill',null,null,0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
