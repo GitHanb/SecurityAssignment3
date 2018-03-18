@@ -18,9 +18,11 @@ import sait.domain.User;
  *
  * @author awarsyle
  */
-public class UsersDB {
+public class UsersDB
+{
 
-    public static void addUser(String username, String password) throws ClassNotFoundException, SQLException {
+    public static void addUser(String username, String password) throws ClassNotFoundException, SQLException
+    {
         Class.forName("com.mysql.jdbc.Driver");
 
         //Open special database connection...
@@ -34,7 +36,8 @@ public class UsersDB {
         conn.close();
     }
 
-    public static void deleteUser(String username) throws ClassNotFoundException, SQLException {
+    public static void deleteUser(String username) throws ClassNotFoundException, SQLException
+    {
         Class.forName("com.mysql.jdbc.Driver");
 
         //Open special database connection...
@@ -48,7 +51,8 @@ public class UsersDB {
         conn.close();
     }
 
-    public static List<User> getUsers() throws ClassNotFoundException, SQLException {
+    public static List<User> getUsers() throws ClassNotFoundException, SQLException
+    {
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
@@ -57,7 +61,8 @@ public class UsersDB {
         ResultSet rs = st.executeQuery(sql);
         List<User> users = new ArrayList<User>();
 
-        while (rs.next()) {
+        while (rs.next())
+        {
             User user = new User(rs.getString(1), rs.getString(2), rs.getBoolean(3));
             users.add(user);
         }
@@ -69,10 +74,12 @@ public class UsersDB {
         return users;
     }
 
-    public static boolean isAdmin(String username) {
+    public static boolean isAdmin(String username)
+    {
         boolean isAdmin = false;
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
@@ -82,20 +89,24 @@ public class UsersDB {
 
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            if (rs.next())
+            {
                 isAdmin = rs.getBoolean(1);
             }
 
             rs.close();
             st.close();
             conn.close();
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
         }
         return isAdmin;
     }
 
-    public static boolean validate(String username, String password) {
-        try {
+    public static boolean validate(String username, String password)
+    {
+        try
+        {
             boolean valid = false;
 
             Class.forName("com.mysql.jdbc.Driver");
@@ -109,7 +120,8 @@ public class UsersDB {
 
             int count = 0;
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 count++;
             }
 
@@ -117,12 +129,14 @@ public class UsersDB {
             st.close();
             conn.close();
 
-            if (count > 0) {
+            if (count > 0)
+            {
                 valid = true;
             }
 
             return valid;
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             return false;
         }
 

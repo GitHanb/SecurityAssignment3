@@ -1,42 +1,51 @@
 package sait.domain;
 
-public class User {
+public class User
+{
+
     private String username;
     private String password;
     private boolean isAdmin;
 
-    public User() {
+    public User()
+    {
     }
 
-    public User(String username, String password, boolean isAdmin) {
+    public User(String username, String password, boolean isAdmin)
+    {
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
     }
 
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username)
+    {
         this.username = username;
     }
 
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         this.password = password;
     }
 
-    public boolean isIsAdmin() {
+    public boolean isIsAdmin()
+    {
         return isAdmin;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
+    public void setIsAdmin(boolean isAdmin)
+    {
         this.isAdmin = isAdmin;
     }
-    
-    
+
 }
