@@ -7,13 +7,16 @@ package sait.db;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 import sait.domain.User;
 
 /**
@@ -142,6 +145,20 @@ public class UsersDB
             return false;
         }
 
+    }
+    
+    public static String getSalt()
+    {
+        Random r = new SecureRandom();
+        byte[] saltBytes = new byte[32];
+        r.nextBytes(saltBytes);
+        return Base64.getEncoder().encodeToString(saltBytes);
+    }
+    
+    public static String hashAndSaltPassword(String password) throws NoSuchAlgorithmException
+    {
+        String salt = getSalt();
+        return hashPassword(password + salt);
     }
 
     public static String hashPassword(String password) throws NoSuchAlgorithmException

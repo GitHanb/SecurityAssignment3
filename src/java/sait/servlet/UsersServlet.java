@@ -1,6 +1,7 @@
 package sait.servlet;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,6 +33,14 @@ public class UsersServlet extends HttpServlet
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String delete = request.getParameter("delete");
+        String hashandsaltedPassword = null;
+        try
+        {
+            hashandsaltedPassword = UsersDB.hashAndSaltPassword(password);
+        } catch (NoSuchAlgorithmException ex)
+        {
+            Logger.getLogger(UsersServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         //Handle adding a user
         if (username != null && password != null && !username.equals("") && !password.equals(""))
