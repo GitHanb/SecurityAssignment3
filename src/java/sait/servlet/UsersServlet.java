@@ -33,6 +33,7 @@ public class UsersServlet extends HttpServlet
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String delete = request.getParameter("delete");
+        String salt = UsersDB.getSalt();
         String hashandsaltedPassword = null;
         try
         {
@@ -47,7 +48,7 @@ public class UsersServlet extends HttpServlet
         {
             try
             {
-                UsersDB.addUser(username, password);
+                UsersDB.addUser(username, password, salt, hashandsaltedPassword);
                 request.setAttribute("message", "User added to database");
             } catch (Exception ex)
             {
