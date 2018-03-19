@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `salt` varchar(20),
-  `hashedandsaltedpassword` varchar(40),
+  `salt` varchar(100),
+  `hashedandsaltedpassword` varchar(100),
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
