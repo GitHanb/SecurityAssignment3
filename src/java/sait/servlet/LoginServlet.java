@@ -45,7 +45,6 @@ public class LoginServlet extends HttpServlet
 
                 boolean isAdmin = UsersDB.isAdmin(username);
                 session.setAttribute("isAdmin", isAdmin);
-
                 response.sendRedirect("users");
                 return;
             } else

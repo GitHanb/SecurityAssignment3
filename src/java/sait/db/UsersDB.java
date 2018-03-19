@@ -68,7 +68,7 @@ public class UsersDB
 
         while (rs.next())
         {
-            User user = new User(rs.getString(1), rs.getString(2), rs.getBoolean(3));
+            User user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getBoolean(3));
             users.add(user);
         }
 
@@ -177,5 +177,17 @@ public class UsersDB
     {
         String salt = getSalt();
         return hashPassword(password + salt);
+    }
+    
+    public static void checkPasswordStrength(String password) throws Exception
+    {
+        if(password == null || password.trim().isEmpty())
+        {
+            throw new Exception("Password cannot be empty.");
+        }
+        else if(password.length()<8)
+        {
+            throw new Exception("Password is too short. Must be at least 8 characters long");
+        }
     }
 }

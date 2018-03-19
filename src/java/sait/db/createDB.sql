@@ -32,7 +32,8 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`username`,`password`,`salt`,`hashedandsaltedpassword`,`admin`) values ('adam','adam',null,null,1),('bill','bill',null,null,0);
+insert  into `users`(`username`,`password`,`salt`,`hashedandsaltedpassword`,`admin`) 
+values ('adam','adam',null,null,1),('bill','bill',null,null,0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

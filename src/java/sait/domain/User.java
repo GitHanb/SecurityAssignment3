@@ -13,11 +13,13 @@ public class User
     {
     }
 
-    public User(String username, String password, boolean isAdmin)
+    public User(String username, String password, String salt, String hashedandsaltedpassword, boolean isAdmin)
     {
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.salt = salt;
+        this.hashedandsaltedpassword = hashedandsaltedpassword;
     }
 
     public String getUsername()
