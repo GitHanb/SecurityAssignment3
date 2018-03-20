@@ -33,7 +33,7 @@ public class UsersServlet extends HttpServlet
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String delete = request.getParameter("delete");
-        String salt = UsersDB.getSalt();
+        String salt = UsersDB.generateSalt();
         String hashandsaltedPassword = null;
         try
         {

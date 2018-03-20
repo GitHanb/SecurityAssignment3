@@ -147,7 +147,7 @@ public class UsersDB
 
     }
 
-    public static String getSalt()
+    public static String generateSalt()
     {
         Random r = new SecureRandom();
         byte[] saltBytes = new byte[32];
@@ -175,7 +175,7 @@ public class UsersDB
 
     public static String hashAndSaltPassword(String password) throws NoSuchAlgorithmException
     {
-        String salt = getSalt();
+        String salt = generateSalt();
         return hashPassword(password + salt);
     }
     
