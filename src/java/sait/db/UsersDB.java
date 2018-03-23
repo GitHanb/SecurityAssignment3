@@ -57,7 +57,7 @@ public class UsersDB
         PreparedStatement ps = conn.prepareStatement(preparedQuery);
         ps.setString(1, username);
         ps.executeUpdate();
-        
+
         ps.close();
         conn.close();
     }
@@ -89,7 +89,8 @@ public class UsersDB
     {
         boolean isAdmin = false;
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
@@ -99,14 +100,16 @@ public class UsersDB
 
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            if (rs.next())
+            {
                 isAdmin = rs.getBoolean(1);
             }
 
             rs.close();
             st.close();
             conn.close();
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
         }
         return isAdmin;
     }
@@ -120,12 +123,14 @@ public class UsersDB
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
-            String sql = "select * from users where username='" + username + "' and password='" + password + "';";
+            //String sql = "select * from users where username='" + username + "' and password='" + password + "';";
+            String preparedQuery = "select * from users where username = ? and password = ?";
+            PreparedStatement ps = conn.prepareStatement(preparedQuery);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
 
-            Statement st = conn.createStatement();
-
-            ResultSet rs = st.executeQuery(sql);
-
+            //ResultSet rs = st.executeQuery(sql);
             int count = 0;
 
             while (rs.next())
@@ -134,7 +139,7 @@ public class UsersDB
             }
 
             rs.close();
-            st.close();
+            ps.close();
             conn.close();
 
             if (count > 0)
