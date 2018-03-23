@@ -26,7 +26,6 @@
         <table border="1">
             <tr>
                 <th>Username</th>
-                <th>Hashed and Salted Password</th>
                     <c:if test="${isAdmin}">
                     <th>Delete</th>
                     </c:if>
@@ -34,11 +33,8 @@
             <c:forEach items="${users}" var="user">
                 <tr>
                     <td>${user.username}</td>
-                    <td>${user.hashedandsaltedpassword}</td>
                     <c:if test="${isAdmin}">
-                        <%--<c:if test="${user.username!=username}">--%>
-                            <td><a href="?username=${user.username}&delete">Delete</a></td>
-                        <%--</c:if>--%>
+                        <td><a href="?username=${user.username}&delete">Delete</a></td>
                     </c:if>
                 </tr>
             </c:forEach>

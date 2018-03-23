@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,11 +34,15 @@ public class UsersDB
         //Open special database connection...
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?allowMultiQueries=true", "root", "password");
 
-        Statement st = conn.createStatement();
-        String sql = "insert into users set username='" + username + "', password='" + password + "', salt='" + salt + "', hashedandsaltedpassword='" + hashandsaltedPassword + "';";
-        st.executeUpdate(sql);
+        String preparedQuery = "insert into users(username, password, salt, hashedandsaltedpassword) values (?,?,?,?)";
+        PreparedStatement ps = conn.prepareStatement(preparedQuery);
+        ps.setString(1, username);
+        ps.setString(2, password);
+        ps.setString(3, salt);
+        ps.setString(4, hashandsaltedPassword);
 
-        st.close();
+        ps.executeUpdate();
+        ps.close();
         conn.close();
     }
 
@@ -48,11 +53,12 @@ public class UsersDB
         //Open special database connection...
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?allowMultiQueries=true", "root", "password");
 
-        Statement st = conn.createStatement();
-        String sql = "delete from users where username='" + username + "'";
-        st.executeUpdate(sql);
-
-        st.close();
+        String preparedQuery = "delete from users where username = ?";
+        PreparedStatement ps = conn.prepareStatement(preparedQuery);
+        ps.setString(1, username);
+        ps.executeUpdate();
+        
+        ps.close();
         conn.close();
     }
 
@@ -61,19 +67,19 @@ public class UsersDB
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
-        String sql = "select * from users;";
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(sql);
+        String preparedQuery = "select * from users";
+        PreparedStatement ps = conn.prepareStatement(preparedQuery);
+        ResultSet rs = ps.executeQuery();
         List<User> users = new ArrayList<User>();
 
         while (rs.next())
         {
-            User user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getBoolean(3));
+            User user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBoolean(5));
             users.add(user);
         }
 
         rs.close();
-        st.close();
+        ps.close();
         conn.close();
 
         return users;
@@ -83,8 +89,7 @@ public class UsersDB
     {
         boolean isAdmin = false;
 
-        try
-        {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
@@ -94,16 +99,14 @@ public class UsersDB
 
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next())
-            {
+            if (rs.next()) {
                 isAdmin = rs.getBoolean(1);
             }
 
             rs.close();
             st.close();
             conn.close();
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
         }
         return isAdmin;
     }
@@ -178,14 +181,13 @@ public class UsersDB
         String salt = generateSalt();
         return hashPassword(password + salt);
     }
-    
+
     public static void checkPasswordStrength(String password) throws Exception
     {
-        if(password == null || password.trim().isEmpty())
+        if (password == null || password.trim().isEmpty())
         {
             throw new Exception("Password cannot be empty.");
-        }
-        else if(password.length()<8)
+        } else if (password.length() < 8)
         {
             throw new Exception("Password is too short. Must be at least 8 characters long");
         }
