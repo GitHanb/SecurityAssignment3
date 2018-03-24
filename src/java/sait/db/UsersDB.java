@@ -94,11 +94,14 @@ public class UsersDB
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
-            String sql = "select admin from users where username='" + username + "';";
+            //String sql = "select admin from users where username='" + username + "';";
+            String preparedQuery = "select admin from users where username = ?";
+            PreparedStatement ps = conn.prepareStatement(preparedQuery);
+            ps.setString(1, username);
+            
+            //Statement st = conn.createStatement();
 
-            Statement st = conn.createStatement();
-
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next())
             {
@@ -106,7 +109,7 @@ public class UsersDB
             }
 
             rs.close();
-            st.close();
+            ps.close();
             conn.close();
         } catch (Exception ex)
         {
@@ -123,14 +126,12 @@ public class UsersDB
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
-            //String sql = "select * from users where username='" + username + "' and password='" + password + "';";
             String preparedQuery = "select * from users where username = ? and password = ?";
             PreparedStatement ps = conn.prepareStatement(preparedQuery);
             ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
 
-            //ResultSet rs = st.executeQuery(sql);
             int count = 0;
 
             while (rs.next())
