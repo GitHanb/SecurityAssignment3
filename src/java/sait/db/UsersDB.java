@@ -25,12 +25,8 @@ public class UsersDB
 
     public static void addUser(String username, String password, String salt, String hashandsaltedPassword) throws ClassNotFoundException, SQLException, Exception
     {
-        //Class.forName("com.mysql.jdbc.Driver");
-
-        //Open special database connection...
-        //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?allowMultiQueries=true", "root", "password");
         Connection conn = DBUtil.getConnection();
-        
+
         String preparedQuery = "insert into users(username, password, salt, hashedandsaltedpassword) values (?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(preparedQuery);
         ps.setString(1, username);
@@ -45,13 +41,8 @@ public class UsersDB
 
     public static void deleteUser(String username) throws ClassNotFoundException, SQLException, Exception
     {
-        //Class.forName("com.mysql.jdbc.Driver");
-
-        //Open special database connection...
-        //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?allowMultiQueries=true", "root", "password");
-        
         Connection conn = DBUtil.getConnection();
-        
+
         String preparedQuery = "delete from users where username = ?";
         PreparedStatement ps = conn.prepareStatement(preparedQuery);
         ps.setString(1, username);
@@ -63,10 +54,8 @@ public class UsersDB
 
     public static List<User> getUsers() throws ClassNotFoundException, SQLException, Exception
     {
-        //Class.forName("com.mysql.jdbc.Driver");
-        //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
         Connection conn = DBUtil.getConnection();
-        
+
         String preparedQuery = "select * from users";
         PreparedStatement ps = conn.prepareStatement(preparedQuery);
         ResultSet rs = ps.executeQuery();
@@ -91,9 +80,6 @@ public class UsersDB
         Connection conn = DBUtil.getConnection();
         try
         {
-            //Class.forName("com.mysql.jdbc.Driver");
-            //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
-
             String preparedQuery = "select admin from users where username = ?";
             PreparedStatement ps = conn.prepareStatement(preparedQuery);
             ps.setString(1, username);
@@ -108,7 +94,7 @@ public class UsersDB
             rs.close();
             ps.close();
             conn.close();
-        }catch (SQLException ex)
+        } catch (SQLException ex)
         {
         }
         return isAdmin;
@@ -120,9 +106,6 @@ public class UsersDB
         try
         {
             boolean valid = false;
-
-            //Class.forName("com.mysql.jdbc.Driver");
-            //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
             String preparedQuery = "select * from users where username = ? and password = ?";
             PreparedStatement ps = conn.prepareStatement(preparedQuery);
@@ -153,6 +136,7 @@ public class UsersDB
         }
 
     }
+
     //method to generate salt (random number)
     public static String generateSalt()
     {
@@ -161,7 +145,7 @@ public class UsersDB
         r.nextBytes(saltBytes);
         return Base64.getEncoder().encodeToString(saltBytes);
     }
-    
+
     //method to hash password
     public static String hashPassword(String password) throws NoSuchAlgorithmException
     {
@@ -180,7 +164,7 @@ public class UsersDB
         }
         return sb.toString();
     }
-    
+
     //method to hash the combination of password and salt
     public static String hashAndSaltPassword(String password) throws NoSuchAlgorithmException
     {

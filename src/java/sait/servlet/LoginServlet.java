@@ -17,7 +17,6 @@ public class LoginServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-
         String logout = request.getParameter("logout");
         request.setAttribute("message", request.getParameter("message"));
 
@@ -27,7 +26,6 @@ public class LoginServlet extends HttpServlet
             session.invalidate();
             request.setAttribute("message", "Logged out");
         }
-
         getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
     }
 
@@ -46,7 +44,7 @@ public class LoginServlet extends HttpServlet
                 {
                     HttpSession session = request.getSession();
                     session.setAttribute("username", username);
-                    
+
                     boolean isAdmin = UsersDB.isAdmin(username);
                     session.setAttribute("isAdmin", isAdmin);
                     response.sendRedirect("users");
@@ -63,7 +61,6 @@ public class LoginServlet extends HttpServlet
         {
             request.setAttribute("message", "Both username and password are required!");
         }
-
         getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
     }
 }

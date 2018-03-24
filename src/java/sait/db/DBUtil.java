@@ -15,13 +15,14 @@ import javax.naming.InitialContext;
  */
 public class DBUtil
 {
-    public static Connection getConnection() throws Exception {
-    Connection conn;
-    InitialContext ic = new InitialContext();
-    String dbUsername = (String) ic.lookup("java:comp/env/han/dbusername");
-    String dbPassword = (String) ic.lookup("java:comp/env/han/dbpassword");
-    Class.forName ("com.mysql.jdbc.Driver").newInstance ();
-    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", dbUsername, dbPassword);
-    return conn;
-}
+    public static Connection getConnection() throws Exception
+    {
+        Connection conn;
+        InitialContext ic = new InitialContext();
+        String dbUsername = (String) ic.lookup("java:comp/env/han/dbusername");
+        String dbPassword = (String) ic.lookup("java:comp/env/han/dbpassword");
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", dbUsername, dbPassword);
+        return conn;
+    }
 }
