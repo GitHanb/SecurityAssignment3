@@ -20,10 +20,6 @@ import java.util.List;
 import java.util.Random;
 import sait.domain.User;
 
-/**
- *
- * @author awarsyle
- */
 public class UsersDB
 {
 
@@ -94,12 +90,9 @@ public class UsersDB
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
-            //String sql = "select admin from users where username='" + username + "';";
             String preparedQuery = "select admin from users where username = ?";
             PreparedStatement ps = conn.prepareStatement(preparedQuery);
             ps.setString(1, username);
-            
-            //Statement st = conn.createStatement();
 
             ResultSet rs = ps.executeQuery();
 
@@ -111,7 +104,9 @@ public class UsersDB
             rs.close();
             ps.close();
             conn.close();
-        } catch (Exception ex)
+        } catch (ClassNotFoundException ex)
+        {
+        } catch (SQLException ex)
         {
         }
         return isAdmin;
@@ -149,13 +144,16 @@ public class UsersDB
             }
 
             return valid;
-        } catch (Exception ex)
+        } catch (ClassNotFoundException ex)
+        {
+            return false;
+        } catch (SQLException ex)
         {
             return false;
         }
 
     }
-
+    //method to generate salt (random number)
     public static String generateSalt()
     {
         Random r = new SecureRandom();
@@ -163,7 +161,8 @@ public class UsersDB
         r.nextBytes(saltBytes);
         return Base64.getEncoder().encodeToString(saltBytes);
     }
-
+    
+    //method to hash password
     public static String hashPassword(String password) throws NoSuchAlgorithmException
     {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -181,13 +180,15 @@ public class UsersDB
         }
         return sb.toString();
     }
-
+    
+    //method to hash the combination of password and salt
     public static String hashAndSaltPassword(String password) throws NoSuchAlgorithmException
     {
         String salt = generateSalt();
         return hashPassword(password + salt);
     }
 
+    //method to check password length
     public static void checkPasswordStrength(String password) throws Exception
     {
         if (password == null || password.trim().isEmpty())
