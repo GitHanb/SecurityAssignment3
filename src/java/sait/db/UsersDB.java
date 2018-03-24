@@ -23,13 +23,14 @@ import sait.domain.User;
 public class UsersDB
 {
 
-    public static void addUser(String username, String password, String salt, String hashandsaltedPassword) throws ClassNotFoundException, SQLException
+    public static void addUser(String username, String password, String salt, String hashandsaltedPassword) throws ClassNotFoundException, SQLException, Exception
     {
-        Class.forName("com.mysql.jdbc.Driver");
+        //Class.forName("com.mysql.jdbc.Driver");
 
         //Open special database connection...
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?allowMultiQueries=true", "root", "password");
-
+        //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?allowMultiQueries=true", "root", "password");
+        Connection conn = DBUtil.getConnection();
+        
         String preparedQuery = "insert into users(username, password, salt, hashedandsaltedpassword) values (?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(preparedQuery);
         ps.setString(1, username);
@@ -42,13 +43,15 @@ public class UsersDB
         conn.close();
     }
 
-    public static void deleteUser(String username) throws ClassNotFoundException, SQLException
+    public static void deleteUser(String username) throws ClassNotFoundException, SQLException, Exception
     {
-        Class.forName("com.mysql.jdbc.Driver");
+        //Class.forName("com.mysql.jdbc.Driver");
 
         //Open special database connection...
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?allowMultiQueries=true", "root", "password");
-
+        //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?allowMultiQueries=true", "root", "password");
+        
+        Connection conn = DBUtil.getConnection();
+        
         String preparedQuery = "delete from users where username = ?";
         PreparedStatement ps = conn.prepareStatement(preparedQuery);
         ps.setString(1, username);
@@ -58,11 +61,12 @@ public class UsersDB
         conn.close();
     }
 
-    public static List<User> getUsers() throws ClassNotFoundException, SQLException
+    public static List<User> getUsers() throws ClassNotFoundException, SQLException, Exception
     {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
-
+        //Class.forName("com.mysql.jdbc.Driver");
+        //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
+        Connection conn = DBUtil.getConnection();
+        
         String preparedQuery = "select * from users";
         PreparedStatement ps = conn.prepareStatement(preparedQuery);
         ResultSet rs = ps.executeQuery();
@@ -81,14 +85,14 @@ public class UsersDB
         return users;
     }
 
-    public static boolean isAdmin(String username)
+    public static boolean isAdmin(String username) throws Exception
     {
         boolean isAdmin = false;
-
+        Connection conn = DBUtil.getConnection();
         try
         {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
+            //Class.forName("com.mysql.jdbc.Driver");
+            //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
             String preparedQuery = "select admin from users where username = ?";
             PreparedStatement ps = conn.prepareStatement(preparedQuery);
@@ -104,22 +108,21 @@ public class UsersDB
             rs.close();
             ps.close();
             conn.close();
-        } catch (ClassNotFoundException ex)
-        {
-        } catch (SQLException ex)
+        }catch (SQLException ex)
         {
         }
         return isAdmin;
     }
 
-    public static boolean validate(String username, String password)
+    public static boolean validate(String username, String password) throws Exception
     {
+        Connection conn = DBUtil.getConnection();
         try
         {
             boolean valid = false;
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
+            //Class.forName("com.mysql.jdbc.Driver");
+            //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "password");
 
             String preparedQuery = "select * from users where username = ? and password = ?";
             PreparedStatement ps = conn.prepareStatement(preparedQuery);
@@ -144,9 +147,6 @@ public class UsersDB
             }
 
             return valid;
-        } catch (ClassNotFoundException ex)
-        {
-            return false;
         } catch (SQLException ex)
         {
             return false;

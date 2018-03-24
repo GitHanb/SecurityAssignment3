@@ -1,6 +1,8 @@
 package sait.servlet;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,18 +40,24 @@ public class LoginServlet extends HttpServlet
 
         if (username != null && password != null && !username.equals("") && !password.equals(""))
         {
-            if (UsersDB.validate(username, password))
+            try
             {
-                HttpSession session = request.getSession();
-                session.setAttribute("username", username);
-
-                boolean isAdmin = UsersDB.isAdmin(username);
-                session.setAttribute("isAdmin", isAdmin);
-                response.sendRedirect("users");
-                return;
-            } else
+                if (UsersDB.validate(username, password))
+                {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("username", username);
+                    
+                    boolean isAdmin = UsersDB.isAdmin(username);
+                    session.setAttribute("isAdmin", isAdmin);
+                    response.sendRedirect("users");
+                    return;
+                } else
+                {
+                    request.setAttribute("message", "Invalid username or password!");
+                }
+            } catch (Exception ex)
             {
-                request.setAttribute("message", "Invalid username or password!");
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else
         {
