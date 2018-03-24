@@ -37,7 +37,7 @@ public class UsersServlet extends HttpServlet
         String hashandsaltedPassword = null;
         try
         {
-            hashandsaltedPassword = UsersDB.hashAndSaltPassword(password);
+            hashandsaltedPassword = UsersDB.hashPassword(password+salt);
         } catch (NoSuchAlgorithmException ex)
         {
             Logger.getLogger(UsersServlet.class.getName()).log(Level.SEVERE, null, ex);

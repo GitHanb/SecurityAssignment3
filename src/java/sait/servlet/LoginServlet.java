@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sait.db.UsersDB;
+import sait.domain.User;
 
 public class LoginServlet extends HttpServlet
 {
@@ -36,19 +37,37 @@ public class LoginServlet extends HttpServlet
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        User user = null;
+        try
+        {
+            user = UsersDB.getUser(username);
+        } catch (Exception ex)
+        {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         if (username != null && password != null && !username.equals("") && !password.equals(""))
         {
             try
             {
-                if (UsersDB.validate(username, password))
+                if (user != null)
                 {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("username", username);
+                    //get salt from db
+                    String salt = user.getSalt();
+                    //get hash from db
+                    String hashFromDB = user.getHashedandsaltedpassword();
+                    //create a new hash value hash(user typed password + salt from DB)
+                    String hashNew = UsersDB.hashPassword(password+salt);
+                    if (hashFromDB.equals(hashNew))
+                    {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("username", username);
 
-                    boolean isAdmin = UsersDB.isAdmin(username);
-                    session.setAttribute("isAdmin", isAdmin);
-                    response.sendRedirect("users");
-                    return;
+                        boolean isAdmin = UsersDB.isAdmin(username);
+                        session.setAttribute("isAdmin", isAdmin);
+                        response.sendRedirect("users");
+                        return;
+                    }
                 } else
                 {
                     request.setAttribute("message", "Invalid username or password!");

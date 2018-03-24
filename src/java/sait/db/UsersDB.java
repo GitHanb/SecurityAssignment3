@@ -100,6 +100,28 @@ public class UsersDB
         return isAdmin;
     }
 
+    public static User getUser(String username) throws Exception
+    {
+        Connection conn = DBUtil.getConnection();
+        User user = null;
+
+        String preparedQuery = "select * from users where username = ?";
+
+        PreparedStatement ps = conn.prepareStatement(preparedQuery);
+        ps.setString(1, username);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next())
+        {
+            user = new User(rs.getString("username"), rs.getString("password"), rs.getString("salt"), rs.getString("hashedandsaltedpassword"), rs.getBoolean("admin"));
+        }
+        rs.close();
+        ps.close();
+        conn.close();
+        return user;
+
+    }
+
     public static boolean validate(String username, String password) throws Exception
     {
         Connection conn = DBUtil.getConnection();
@@ -166,12 +188,11 @@ public class UsersDB
     }
 
     //method to hash the combination of password and salt
-    public static String hashAndSaltPassword(String password) throws NoSuchAlgorithmException
-    {
-        String salt = generateSalt();
-        return hashPassword(password + salt);
-    }
-
+//    public static String hashAndSaltPassword(String password) throws NoSuchAlgorithmException
+//    {
+//        String salt = generateSalt();
+//        return hashPassword(password + salt);
+//    }
     //method to check password length
     public static void checkPasswordStrength(String password) throws Exception
     {
