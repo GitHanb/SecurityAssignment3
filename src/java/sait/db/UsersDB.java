@@ -23,16 +23,15 @@ import sait.domain.User;
 public class UsersDB
 {
 
-    public static void addUser(String username, String password, String salt, String hashandsaltedPassword) throws ClassNotFoundException, SQLException, Exception
+    public static void addUser(String username, String salt, String hashandsaltedPassword) throws ClassNotFoundException, SQLException, Exception
     {
         Connection conn = DBUtil.getConnection();
 
-        String preparedQuery = "insert into users(username, password, salt, hashedandsaltedpassword) values (?,?,?,?)";
+        String preparedQuery = "insert into users(username, salt, hashedandsaltedpassword) values (?,?,?)";
         PreparedStatement ps = conn.prepareStatement(preparedQuery);
         ps.setString(1, username);
-        ps.setString(2, password);
-        ps.setString(3, salt);
-        ps.setString(4, hashandsaltedPassword);
+        ps.setString(2, salt);
+        ps.setString(3, hashandsaltedPassword);
 
         ps.executeUpdate();
         ps.close();
@@ -63,7 +62,7 @@ public class UsersDB
 
         while (rs.next())
         {
-            User user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBoolean(5));
+            User user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getBoolean(4));
             users.add(user);
         }
 
@@ -113,7 +112,7 @@ public class UsersDB
 
         while (rs.next())
         {
-            user = new User(rs.getString("username"), rs.getString("password"), rs.getString("salt"), rs.getString("hashedandsaltedpassword"), rs.getBoolean("admin"));
+            user = new User(rs.getString("username"), rs.getString("salt"), rs.getString("hashedandsaltedpassword"), rs.getBoolean("admin"));
         }
         rs.close();
         ps.close();

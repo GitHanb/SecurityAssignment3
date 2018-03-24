@@ -23,7 +23,6 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
   `salt` varchar(100),
   `hashedandsaltedpassword` varchar(100),
   `admin` tinyint(1) NOT NULL DEFAULT '0',
@@ -32,8 +31,9 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`username`,`password`,`salt`,`hashedandsaltedpassword`,`admin`) 
-values ('adam','adam','URDqzTnZRD9mCBv/ivMyVXgPqusBTklNBXK1gUJfA9U=','0bddf2a171c936131e624787889d54edd49f0d6860ec51798d3d5b35f5b89de2',1),('bill','bill','tQwg3jFMCEAQfJ1Umc6AvNeqIzN3XLVeHLDL84/+lh4=','876e7c6a8cc8876b44960ba27d93d6b541c59f95d0234d2555753fb70d21301f',0);
+insert  into `users`(`username`,`salt`,`hashedandsaltedpassword`,`admin`) 
+values ('adam','URDqzTnZRD9mCBv/ivMyVXgPqusBTklNBXK1gUJfA9U=','0bddf2a171c936131e624787889d54edd49f0d6860ec51798d3d5b35f5b89de2',1),
+('bill','tQwg3jFMCEAQfJ1Umc6AvNeqIzN3XLVeHLDL84/+lh4=','876e7c6a8cc8876b44960ba27d93d6b541c59f95d0234d2555753fb70d21301f',0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
