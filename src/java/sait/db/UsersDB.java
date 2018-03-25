@@ -186,12 +186,6 @@ public class UsersDB
         return sb.toString();
     }
 
-    //method to hash the combination of password and salt
-//    public static String hashAndSaltPassword(String password) throws NoSuchAlgorithmException
-//    {
-//        String salt = generateSalt();
-//        return hashPassword(password + salt);
-//    }
     //method to check password length
     public static void checkPasswordStrength(String password) throws Exception
     {
