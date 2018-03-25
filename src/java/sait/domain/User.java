@@ -4,7 +4,6 @@ public class User
 {
 
     private String username;
-    private String password;
     private String salt;
     private String hashedandsaltedpassword;
     private boolean isAdmin;
@@ -13,10 +12,9 @@ public class User
     {
     }
 
-    public User(String username, String password, String salt, String hashedandsaltedpassword, boolean isAdmin)
+    public User(String username, String salt, String hashedandsaltedpassword, boolean isAdmin)
     {
         this.username = username;
-        this.password = password;
         this.isAdmin = isAdmin;
         this.salt = salt;
         this.hashedandsaltedpassword = hashedandsaltedpassword;
@@ -32,15 +30,6 @@ public class User
         this.username = username;
     }
 
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
 
     public boolean isIsAdmin()
     {
@@ -57,18 +46,8 @@ public class User
         return salt;
     }
 
-    public void setSalt(String salt)
-    {
-        this.salt = salt;
-    }
-
     public String getHashedandsaltedpassword()
     {
         return hashedandsaltedpassword;
-    }
-
-    public void setHashedandsaltedpassword(String hashedandsaltedpassword)
-    {
-        this.hashedandsaltedpassword = hashedandsaltedpassword;
     }
 }

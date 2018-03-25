@@ -37,7 +37,7 @@ public class UsersServlet extends HttpServlet
         String hashandsaltedPassword = null;
         try
         {
-            hashandsaltedPassword = UsersDB.hashAndSaltPassword(password);
+            hashandsaltedPassword = UsersDB.hashPassword(password+salt);
         } catch (NoSuchAlgorithmException ex)
         {
             Logger.getLogger(UsersServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,8 +47,8 @@ public class UsersServlet extends HttpServlet
         if (username != null && password != null && !username.equals("") && !password.equals(""))
         {
             try
-            {
-                UsersDB.addUser(username, password, salt, hashandsaltedPassword);
+            {              
+                UsersDB.addUser(username, salt, hashandsaltedPassword);
                 request.setAttribute("message", "User added to database");
             } catch (Exception ex)
             {
