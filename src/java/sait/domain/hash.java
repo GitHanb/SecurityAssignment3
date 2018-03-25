@@ -7,6 +7,7 @@ package sait.domain;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import sait.db.PasswordUtil;
 import sait.db.UsersDB;
 
 /**
@@ -18,8 +19,8 @@ public class hash
 
     public static void main(String[] args) throws NoSuchAlgorithmException
     {
-        String hashAdam = UsersDB.hashPassword("adamURDqzTnZRD9mCBv/ivMyVXgPqusBTklNBXK1gUJfA9U=");
-        String hashBill = UsersDB.hashPassword("billtQwg3jFMCEAQfJ1Umc6AvNeqIzN3XLVeHLDL84/+lh4=");
+        String hashAdam = PasswordUtil.hashPassword("adamURDqzTnZRD9mCBv/ivMyVXgPqusBTklNBXK1gUJfA9U=");
+        String hashBill = PasswordUtil.hashPassword("billtQwg3jFMCEAQfJ1Umc6AvNeqIzN3XLVeHLDL84/+lh4=");
         
         System.out.println(hashAdam);
         System.out.println(hashBill);

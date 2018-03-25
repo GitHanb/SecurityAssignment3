@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sait.db.PasswordUtil;
 import sait.db.UsersDB;
 import sait.domain.User;
 
@@ -33,11 +34,11 @@ public class UsersServlet extends HttpServlet
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String delete = request.getParameter("delete");
-        String salt = UsersDB.generateSalt();
+        String salt = PasswordUtil.generateSalt();
         String hashandsaltedPassword = null;
         try
         {
-            hashandsaltedPassword = UsersDB.hashPassword(password+salt);
+            hashandsaltedPassword = PasswordUtil.hashPassword(password+salt);
         } catch (NoSuchAlgorithmException ex)
         {
             Logger.getLogger(UsersServlet.class.getName()).log(Level.SEVERE, null, ex);

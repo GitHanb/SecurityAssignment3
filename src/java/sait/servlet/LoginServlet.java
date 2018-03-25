@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sait.db.PasswordUtil;
 import sait.db.UsersDB;
 import sait.domain.User;
 
@@ -57,7 +58,7 @@ public class LoginServlet extends HttpServlet
                     //get hash from db
                     String hashFromDB = user.getHashedandsaltedpassword();
                     //create a new hash value hash(user typed password + salt from DB)
-                    String hashNew = UsersDB.hashPassword(password+salt);
+                    String hashNew = PasswordUtil.hashPassword(password+salt);
                     if (hashFromDB.equals(hashNew))
                     {
                         HttpSession session = request.getSession();
@@ -68,9 +69,13 @@ public class LoginServlet extends HttpServlet
                         response.sendRedirect("users");
                         return;
                     }
+                    else
+                    {
+                        request.setAttribute("message", "Invalid password!");
+                    }
                 } else
                 {
-                    request.setAttribute("message", "Invalid username or password!");
+                    request.setAttribute("message", "Invalid username!");
                 }
             } catch (Exception ex)
             {
