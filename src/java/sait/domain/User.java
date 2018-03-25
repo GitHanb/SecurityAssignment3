@@ -46,18 +46,8 @@ public class User
         return salt;
     }
 
-    public void setSalt(String salt)
-    {
-        this.salt = salt;
-    }
-
     public String getHashedandsaltedpassword()
     {
         return hashedandsaltedpassword;
-    }
-
-    public void setHashedandsaltedpassword(String hashedandsaltedpassword)
-    {
-        this.hashedandsaltedpassword = hashedandsaltedpassword;
     }
 }
