@@ -34,7 +34,9 @@
                 <tr>
                     <td>${user.username}</td>
                     <c:if test="${isAdmin}">
+                        <c:if test="${user.username != username}">
                         <td><a href="?username=${user.username}&delete">Delete</a></td>
+                        </c:if>
                     </c:if>
                 </tr>
             </c:forEach>
